@@ -1,6 +1,6 @@
 {
-  "name": "aframe-boilerplate",
-  "description": "Boilerplate for creating WebVR scenes using A-Frame",
+  "name": "JSSOLICHIN vr-portfolio-2016",
+  "description": "Jonathan Solichin's VR Portfolio for May 1st Reboot 2016",
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
@@ -17,5 +17,8 @@
     "aframe-example",
     "aframe-scene",
     "aframe-boilerplate"
-  ]
+  ],
+  "dependencies": {
+    "aframe-text-component": "^0.3.0"
+  }
 }
