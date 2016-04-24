@@ -5,15 +5,59 @@
 		<title>Hello, World! • A-Frame</title>
 		<meta name="description" content="Hello, World! • A-Frame">
 		<script src="https://aframe.io/releases/0.2.0/aframe.min.js"></script>
+		<script src="node_modules/aframe-template-component/dist/aframe-template-component.min.js"></script>
+		<script src="node_modules/aframe-layout-component/dist/aframe-layout-component.min.js"></script>
 		<script src="node_modules/aframe-text-component/dist/aframe-text-component.min.js"></script>
-		<script src="node_modules/aframe-text-component/lib/helvetiker_regular.typeface.js"></script>
+		<script src="script.js"></script>
+		<style>
+			body {
+				background: linear-gradient(#CADCF7, #DB7F7F);	
+			}
+		</style>
 	</head>
 	<body>
 		<a-scene>
-			<a-sky color="#ECECEC"></a-sky>
 
-			<a-entity position="0 1.25 -1" mixin="font" text="text: Hello"></a-entity>
-			<a-entity mixin="font" text="text: World"></a-entity>
+			<a-assets>
+
+			    <img id="one" src="images/one.png">
+				<a-mixin id="border" material="color: #0000FF" geometry="width: .1; height: .1; depth: .2;"></a-mixin>
+				<a-mixin id="growY" begin="open" attribute="height" repeat="0" from="0" to="4.9"></a-mixin>
+				<a-mixin id="growX" begin="open" attribute="width" repeat="0" from="0" to="4.9"></a-mixin>
+				<a-mixin id="shrinkY" begin="close" attribute="height" repeat="0" from="4.9" to="0"></a-mixin>
+				<a-mixin id="shrinkX" begin="close" attribute="width" repeat="0" from="4.9" to="0"></a-mixin>
+				<a-mixin id="text" material="color: #fff" text="text: Hello; size: 1; height: .2"></a-mixin>
+
+				<script id="gallery" type="text/x-nunjucks-template">
+					<a-entity layout="type: circle; radius: 10" position="0 0 0">
+
+						{% for x in range(num) %}
+							<a-entity look-at="#camera">
+								<a-image src="#one" width="12.8" height="8" position="0 2.2 -3.6" material="shader:flat;transparent:true;" geometry="primitive:plane;" item></a-image>
+								<a-entity position="-6 4 -2">
+									<a-entity position="0 .6 0" mixin="text" text="text: HELLO;"></a-entity>
+									<a-entity position="0 -.6 0" mixin="text" text="text: WORLD;"></a-entity>
+									<a-box position="2.5 -1.2 0" material="color: red;" height=".25" width="5" depth=".2"></a-box>
+								</a-entity>
+							</a-entity>
+						{% endfor %}
+
+					</a-entity>
+				</script>
+						
+			</a-assets>
+
+			<a-entity light="type: hemisphere; color: #33C; groundColor: #fff; intensity: 1.4"></a-entity>
+
+			<a-entity  id="camera" position="0 0 0">
+				<a-camera position="0 2 0">
+					<a-cursor color="#4CC3D9"></a-cursor>
+				</a-camera>
+			</a-entity>
+
+			<a-entity template="src: #gallery" data-num="5"></a-entity>
+
 		</a-scene>
+
 	</body>
 </html>

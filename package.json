@@ -1,7 +1,7 @@
 {
-  "name": "JSSOLICHIN vr-portfolio-2016",
+  "name": "jssolichin-vr-portfolio-2016",
   "description": "Jonathan Solichin's VR Portfolio for May 1st Reboot 2016",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "license": "MIT",
   "scripts": {
     "start": "budo --live --verbose --port 3000 --open",
@@ -19,6 +19,8 @@
     "aframe-boilerplate"
   ],
   "dependencies": {
+    "aframe-layout-component": "^1.1.0",
+    "aframe-template-component": "^1.3.1",
     "aframe-text-component": "^0.3.0"
   }
 }
