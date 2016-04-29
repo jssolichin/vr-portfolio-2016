@@ -8,10 +8,23 @@
 		<script src="node_modules/aframe-template-component/dist/aframe-template-component.min.js"></script>
 		<script src="node_modules/aframe-layout-component/dist/aframe-layout-component.min.js"></script>
 		<script src="node_modules/aframe-text-component/dist/aframe-text-component.min.js"></script>
+		<script src="node_modules/aframe-htmltexture-component/node_modules/aframe-draw-component/dist/aframe-draw-component.js"></script>
+		<script src="node_modules/aframe-htmltexture-component/dist/aframe-htmltexture-component.js"></script>
 		<script src="script.js"></script>
 		<style>
 			body {
 				background: linear-gradient(#CADCF7, #DB7F7F);	
+				font-family: helvetica, arial, "sans-serif";
+			}
+			#header {
+				text-align: center;
+				padding: 20px;
+			}
+			#logo {
+				width: 100px;	
+			}
+			.description {
+				font-size: 20px;
 			}
 		</style>
 	</head>
@@ -29,35 +42,78 @@
 				<a-mixin id="text" material="color: #fff" text="text: Hello; size: 1; height: .2"></a-mixin>
 
 				<script id="gallery" type="text/x-nunjucks-template">
-					<a-entity layout="type: circle; radius: 10" position="0 0 0">
+					<a-entity layout="type: circle; radius: 10" rotation="0 18 0" position="0 0 0">
 
-						{% for x in range(num) %}
-							<a-entity look-at="#camera">
-								<a-image src="#one" width="12.8" height="8" position="0 2.2 -3.6" material="shader:flat;transparent:true;" geometry="primitive:plane;" item></a-image>
-								<a-entity position="-6 4 -2">
-									<a-entity position="0 .6 0" mixin="text" text="text: HELLO;"></a-entity>
-									<a-entity position="0 -.6 0" mixin="text" text="text: WORLD;"></a-entity>
-									<a-box position="2.5 -1.2 0" material="color: red;" height=".25" width="5" depth=".2"></a-box>
+					{% for x in range(num) %}
+						<a-entity look-at="#center" item>
+
+							<!-- subgallery -->
+							<a-entity position="0 0 -70">
+								<a-entity id="lookCenter" class="childrenCenter" layout="type: circle; radius: 3">
+									{% for z in range(5) %}
+										<a-entity look-at="#center">
+											<a-curvedimage src="#one" width="12.8" height="10" 
+											material="shader:flat;transparent:true;" geometry="primitive:plane;"  rotation="0 -30 0" 
+											radius="20" theta-length="55" ></a-curvedimage> 
+										</a-entity>
+									{% endfor %}
 								</a-entity>
 							</a-entity>
-						{% endfor %}
+
+							<!-- main gallery image -->
+							<a-curvedimage src="#one" width="12.8" height="10" 
+							position="0 2.2 11" material="shader:flat;transparent:true;" geometry="primitive:plane;" rotation="0 150 0" 
+							radius="20" theta-length="55"></a-curvedimage> 
+
+							<!-- main gallery title -->
+							<a-entity position="-6 4.3 -1.5">
+								<a-entity position="0 .6 0" mixin="text" text="text: HELLO;"></a-entity>
+								<a-entity position="0 -.6 0" mixin="text" text="text: WORLD;"></a-entity>
+								<a-box position="2.5 -1.2 0" material="color: red;" height=".25" width="5" depth=".2"></a-box>
+							</a-entity>
+
+							<!-- main gallery description -->
+							<a-entity geometry="primitive: plane; width: 6; height: 3" position="0 -1 5" rotation="-60 0 0" draw="width: 600; height: 300; background: transparent;" htmltexture="asset: .description"></a-entity>
+
+						</a-entity>
+					{% endfor %}
 
 					</a-entity>
 				</script>
-						
+
+				<div class="description" >
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam iaculis odio mi, a semper erat rhoncus et. Etiam nec sapien urna. Suspendisse potenti. Duis placerat nunc nec neque venenatis, id malesuada nulla dapibus. Proin eleifend metus eget mauris imperdiet malesuada eu et tortor. 
+				</div>
+
 			</a-assets>
 
 			<a-entity light="type: hemisphere; color: #33C; groundColor: #fff; intensity: 1.4"></a-entity>
 
-			<a-entity  id="camera" position="0 0 0">
-				<a-camera position="0 2 0">
-					<a-cursor color="#4CC3D9"></a-cursor>
+			<a-entity  id="camera" position="0 0 0"  click-listener>
+				<a-camera position="0 2 0" >
+					<a-entity 
+						position="0 0 -3"
+						geometry="primitive: ring; radiusOuter: 0.30; radiusInner: 0.20;"
+						material="color: cyan; shader: flat"
+						cursor="maxDistance: 30; fuse: true">
+						<a-animation begin="click" easing="ease-in" attribute="scale"
+							fill="backwards" from="0.1 0.1 0.1" to="1 1 1" dur="150"></a-animation>
+						<a-animation begin="fusing" easing="ease-in" attribute="scale"
+							fill="forwards" from="1 1 1" to="0.1 0.1 0.1" dur="1500"></a-animation>
+					</a-entity>
 				</a-camera>
 			</a-entity>
 
+			<a-entity id="center" position="0 0 0"></a-entity>
+
 			<a-entity template="src: #gallery" data-num="5"></a-entity>
 
+
 		</a-scene>
+
+		<div id="header">
+			<img id="logo" src="images/logo-white.png">
+		</div>
 
 	</body>
 </html>
