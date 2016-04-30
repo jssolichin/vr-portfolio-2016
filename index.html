@@ -19,6 +19,7 @@
 			#header {
 				text-align: center;
 				padding: 20px;
+				pointer-events: none;
 			}
 			#logo {
 				width: 100px;	
@@ -34,11 +35,12 @@
 			<a-assets>
 
 			    <img id="one" src="images/one.png">
+			    <img id="go-home" src="images/go-home-2x.png">
 				<a-mixin id="border" material="color: #0000FF" geometry="width: .1; height: .1; depth: .2;"></a-mixin>
 				<a-mixin id="growY" easing="ease-in" dur="1500" begin="open" attribute="height" repeat="0" from="0" to="4.9"></a-mixin>
 				<a-mixin id="growX" easing="ease-in" dur="1500" begin="open" attribute="width" repeat="0" from="0" to="4.9"></a-mixin>
-				<a-mixin id="shrinkY" easing="ease-in" dur="1500" begin="close" attribute="height" repeat="0" from="4.9" to="0"></a-mixin>
-				<a-mixin id="shrinkX" easing="ease-in" dur="1500" begin="close" attribute="width" repeat="0" from="4.9" to="0"></a-mixin>
+				<a-mixin id="shrinkY" easing="ease-in" dur="500" begin="close" attribute="height" repeat="0" from="4.9" to="0"></a-mixin>
+				<a-mixin id="shrinkX" easing="ease-in" dur="500" begin="close" attribute="width" repeat="0" from="4.9" to="0"></a-mixin>
 				<a-mixin id="text" material="color: #fff" text="text: Hello; size: 1; height: .2"></a-mixin>
 
 				<script id="gallery" type="text/x-nunjucks-template">
@@ -55,10 +57,14 @@
 						<a-entity look-at="#center" item>
 							<!-- subgallery -->
 							<a-entity position="0 0 -70"  class="childrenCenter">
-								<a-cone radius-bottom="8.5" radius-top="8" height="1" position="0 -4 0" rotations="90 0 0" go-back>
-									<a-animation begin="fusing" repeat="0" attribute="radius-top"
-									from="8" to="1" easing="ease-in" dur="1500"></a-animation>
-								</a-cone>
+								<a-entity position="0 -2 0" rotation="-90 0 0" go-home>
+									<a-image rotation="-90 0 0" width="10" height="10" src="#go-home" material="transparent: true" go-home>
+										<a-animation easing="linear" attribute="rotation" from="0 0 0" to="0 0 360" repeat="indefinite" dur="120000"></a-animation>
+									</a-image>
+									<a-image position="0 0 .1" width="8.5" height="8.5" src="#go-home" material="transparent: true">
+										<a-animation easing="linear" attribute="rotation" from="0 0 0" to="0 0 -360" repeat="indefinite" dur="120000"></a-animation>
+									</a-image>
+								</a-entity>
 								<a-entity id="lookCenter" layout="type: circle; radius: 3">
 									{% for z in range(5) %}
 										<a-entity look-at="#center">
@@ -82,9 +88,9 @@
 								<a-box position="2.5 -1.2 0" material="color: red;" height=".25" width="5" depth=".2"></a-box>
 							</a-entity>
 
-							<!-- main gallery description -->
-							<a-entity geometry="primitive: plane; width: 6; height: 3" position="0 -1 5" rotation="-60 0 0" draw="width: 600; height: 300; background: transparent;" htmltexture="asset: .description"></a-entity>
-
+							<!-- main gallery description
+							<a-entity geometry="primitive: plane; width: 6; height: 1" position="0 -1 5" rotation="-60 0 0" draw="width: 600; height: 100; background: transparent;" htmltexture="asset: .description"></a-entity>
+ -->
 						</a-entity>
 					{% endmacro %}
 

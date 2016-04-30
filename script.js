@@ -66,13 +66,40 @@ AFRAME.registerComponent('main-item', {
 	},
 });
 
-AFRAME.registerComponent('go-back', {
+AFRAME.registerComponent('go-home', {
 	schema: {
 		target: {default: '#camera'}
 	},
 	init: function () {
 		var vector = new THREE.Vector3(0,0,0);
 		var camera = this.el.sceneEl.querySelector(this.data.target);
+
+		var animator;
+
+		this.el.addEventListener('mouseenter', function (a) {
+
+			animator = document.createElement('a-animation');
+			animator.setAttribute('attribute', 'rotation');
+			animator.setAttribute('from', '-90 0 0');
+			animator.setAttribute('to', '-90 0 360');
+			animator.setAttribute('repeat', '0');
+			animator.setAttribute('easing', 'ease-in');
+			animator.setAttribute('dur', '2000');
+
+			animator.addEventListener('animationend', function (){
+				this.parentElement.removeChild(this);
+			})
+
+			this.appendChild(animator);
+		
+		});
+
+		this.el.addEventListener('mouseleave', function (a) {
+
+			if(animator)
+				this.removeChild(animator);
+		
+		});
 
 		this.el.addEventListener('click', function (a) {
 
@@ -89,7 +116,7 @@ AFRAME.registerComponent('click-listener', {
 
 			console.log('moveHere', a.detail)
 
-			animator = document.createElement('a-animation');
+			var animator = document.createElement('a-animation');
 			animator.setAttribute('id', 'cameraMover');
 			animator.setAttribute('attribute', 'position');
 			animator.setAttribute('to', a.detail.x + ' ' + a.detail.y + ' ' + a.detail.z);
