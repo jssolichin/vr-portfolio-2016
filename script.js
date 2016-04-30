@@ -131,3 +131,44 @@ AFRAME.registerComponent('click-listener', {
 		});
 	}
 });
+
+AFRAME.registerComponent('go-to', {
+	schema: {
+		url: {default: 'http://jssolichin.com'},
+		target: {default: '.icon'},
+		from: {default: '90 10 0'},
+		to: {default: '90 720 0'}
+	},
+	init: function () {
+
+		var url = this.data.url
+		var from = this.data.from
+		var to = this.data.to
+
+		var animator;
+		var icon =this.el.querySelector(this.data.target);
+
+		this.el.addEventListener('mouseenter', function (a){
+
+			animator = document.createElement('a-animation');
+			animator.setAttribute('attribute', 'rotation');
+			animator.setAttribute('from', from);
+			animator.setAttribute('to', to);
+			animator.setAttribute('easing', 'ease-in');
+			animator.setAttribute('fill', 'forwards');
+			animator.setAttribute('dur', '2500');
+
+			animator.addEventListener('animationend', function (){
+				window.location = url;
+			})
+
+			icon.appendChild(animator);
+		});
+
+		this.el.addEventListener('mouseleave', function (a){
+			if(animator)
+				icon.removeChild(animator);
+		});
+
+	}
+});
