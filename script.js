@@ -3,13 +3,9 @@ AFRAME.registerComponent('item', {
 		offset: {default: '0 4 -1.5' },
 		target: {default: '#camera'}
 	},
-	update: function (oldData) {
+	init: function (){
 		this.el.addEventListener('mouseenter', this.onEnter.bind(this));
 		this.el.addEventListener('mouseleave', this.onLeave.bind(this));
-		this.el.addEventListener('click', this.onClick.bind(this));
-	},
-	init: function (){
-		var el = this.el;
 
 		this.data.borders = [];
 
@@ -39,7 +35,7 @@ AFRAME.registerComponent('item', {
 			this.data.borders.push(box);
 		});
 
-		el.appendChild(entity);
+		this.el.appendChild(entity);
 	},
 	onEnter: function (){
 		this.data.borders.forEach((border) => {
@@ -51,30 +47,60 @@ AFRAME.registerComponent('item', {
 			border.emit('close')	
 		})
 	},
-	onClick: function (){
-		var el = this.el;
-		var camera = this.el.sceneEl.querySelectorAll(this.data.target)[0];
-		var childrenCenter = this.el.querySelectorAll('.childrenCenter')[0];
+});
 
+AFRAME.registerComponent('main-item', {
+	schema: {
+		target: {default: '#camera'}
+	},
+	init: function () {
+		this.el.addEventListener('click', this.onClick.bind(this));
+	},
+	onClick: function (){
+
+		var camera = this.el.sceneEl.querySelector(this.data.target);
+		var childrenCenter = this.el.parentElement.querySelector('.childrenCenter');
 		var vector = childrenCenter.object3D.matrixWorld.getPosition();
-		
+
 		camera.emit('moveHere', vector, false);
 	},
 });
 
+AFRAME.registerComponent('go-back', {
+	schema: {
+		target: {default: '#camera'}
+	},
+	init: function () {
+		var vector = new THREE.Vector3(0,0,0);
+		var camera = this.el.sceneEl.querySelector(this.data.target);
+
+		this.el.addEventListener('click', function (a) {
+
+			camera.emit('moveHere', vector, false);
+
+		});
+	}
+});
+
 AFRAME.registerComponent('click-listener', {
-  init: function () {
-    var el = this.el;
+	init: function () {
 
-	el.addEventListener('moveHere', function (a,b,c) {
+		this.el.addEventListener('moveHere', function (a) {
 
-			var animation = document.createElement('a-animation');
-			animation.setAttribute('attribute', 'position');
-			animation.setAttribute('to', a.detail.x + ' ' + a.detail.y + ' ' + a.detail.z);
-			animation.setAttribute('repeat', '0');
+			console.log('moveHere', a.detail)
 
-			el.appendChild(animation);
+			animator = document.createElement('a-animation');
+			animator.setAttribute('id', 'cameraMover');
+			animator.setAttribute('attribute', 'position');
+			animator.setAttribute('to', a.detail.x + ' ' + a.detail.y + ' ' + a.detail.z);
+			animator.setAttribute('repeat', '0');
 
-    });
-  }
+			animator.addEventListener('animationend', function (){
+				this.parentElement.removeChild(this);
+			})
+
+			this.appendChild(animator);
+
+		});
+	}
 });
