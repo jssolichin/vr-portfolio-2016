@@ -36,6 +36,11 @@
 
 			    <img id="one" src="images/one.png">
 			    <img id="go-home" src="images/go-home-2x.png">
+				<a-asset-item id="twitter-obj" src="obj/twitter.obj"></a-asset-item>
+				<a-asset-item id="github-obj" src="obj/github.obj"></a-asset-item>
+				<a-asset-item id="instagram-obj" src="obj/instagram.obj"></a-asset-item>
+				<a-asset-item id="mtl" src="obj/mtl.mtl"></a-asset-item>
+
 				<a-mixin id="border" material="color: #0000FF" geometry="width: .1; height: .1; depth: .2;"></a-mixin>
 				<a-mixin id="growY" easing="ease-in" dur="1500" begin="open" attribute="height" repeat="0" from="0" to="4.9"></a-mixin>
 				<a-mixin id="growX" easing="ease-in" dur="1500" begin="open" attribute="width" repeat="0" from="0" to="4.9"></a-mixin>
@@ -109,6 +114,21 @@
 								<a-entity position="-1.2 -.6 1" mixin="text" text="text: UX / Developer / Creative; size: .6"></a-entity>
 								<a-box position="3.75 -2 0" material="color: red;" height=".25" width="5" depth=".2"></a-box>
 							</a-entity>
+
+								<a-entity position="0 -1 0">
+									<a-entity position="-2.8 .2 0" scale="20 20 20" rotation="90 0 0" obj-model="obj: #twitter-obj; mtl: #mtl">
+										<a-animation direction="alternate" easing="ease-elastic" attribute="rotation" from="90 -10 0" to="90 10 0" repeat="indefinite" dur="1500"></a-animation>
+										<a-animation begin="mouseenter" easing="ease-in" fill="forwards" attribute="rotation" from="90 -10 0" to="90 -720 0" dur="2500"></a-animation>
+									</a-entity>
+									<a-entity position="-.2 0 0" scale="20 20 20" rotation="90 0 0" obj-model="obj: #github-obj; mtl: #mtl">
+										<a-animation direction="alternate" easing="ease-elastic" attribute="rotation" from="80 0 0" to="100 0 0" repeat="indefinite" dur="1500"></a-animation>
+										<a-animation begin="mouseenter" easing="ease-in" fill="forwards" attribute="rotation" from="80 0 0" to="800 0 0" dur="2500"></a-animation>
+									</a-entity>
+									<a-entity position="3 .1 0" scale="20 20 20" rotation="90 0 0" obj-model="obj: #instagram-obj; mtl: #mtl">
+										<a-animation direction="alternate" easing="ease-elastic" attribute="rotation" from="90 10 0" to="90 -10 0" repeat="indefinite" dur="1500"></a-animation>
+										<a-animation begin="mouseenter" easing="ease-in"fill="forwards" attribute="rotation" from="90 -10 0" to="90 720 0" dur="2500"></a-animation>
+									</a-entity>
+								</a-entity>
 
 							</a-entity>
 						{% else %}
