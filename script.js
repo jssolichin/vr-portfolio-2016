@@ -7,44 +7,72 @@ AFRAME.registerComponent('item', {
 		this.el.addEventListener('mouseenter', this.onEnter.bind(this));
 		this.el.addEventListener('mouseleave', this.onLeave.bind(this));
 
+		// keep track of the borders we're going to construct
 		this.data.borders = [];
 
-		var sides = [
+		// depending on which side of the border, we have some different values
+		this.data.sides = [
 			{animationStart: 'growY', animationLeave: 'shrinkY', position: '-2.4 -2 4'},
 			{animationStart: 'growY', animationLeave: 'shrinkY', position: '2.4 -2 4'},
 			{animationStart: 'growX', animationLeave: 'shrinkX', position: '0 -4.4 4'},
 			{animationStart: 'growX', animationLeave: 'shrinkX', position: '0 0.4 4'},
 		]
 
+		// create a container for the borders
 		var entity = document.createElement('a-entity');
 		entity.setAttribute('position', this.data.offset);
 
-		sides.forEach((side,index) => {
+		// let's add the borders
+		this.data.sides.forEach((side,index) => {
 			var box = document.createElement('a-box');
 			box.setAttribute('mixin', 'border');
 			box.setAttribute('position', side.position);
-			var animation = document.createElement('a-animation');
-			animation.setAttribute('mixin', side.animationStart);
-			var animationLeave = document.createElement('a-animation');
-			animationLeave.setAttribute('mixin', side.animationLeave);
 
-			box.appendChild(animation);
-			box.appendChild(animationLeave);
 			entity.appendChild(box);
-
 			this.data.borders.push(box);
 		});
 
+		// add the container to the scene
 		this.el.appendChild(entity);
 	},
 	onEnter: function (){
-		this.data.borders.forEach((border) => {
-			border.emit('open')	
+		var sides = this.data.sides;
+
+		this.data.borders.forEach((border, idx) => {
+		
+			// delete any existing animation to avoid conflict
+			while (border.hasChildNodes()) {
+			    border.removeChild(border.lastChild);
+			}
+
+			var animator = document.createElement('a-animation');
+			animator.setAttribute('mixin', sides[idx].animationStart);
+			animator.addEventListener('animationend', function (){
+				this.parentElement.removeChild(this);
+			})
+
+			border.appendChild(animator);
+
 		})
 	},
 	onLeave: function (){
-		this.data.borders.forEach((border) => {
-			border.emit('close')	
+		var sides = this.data.sides;
+
+		this.data.borders.forEach((border,idx) => {
+			
+			// delete any existing animation to avoid conflict
+			while (border.hasChildNodes()) {
+			    border.removeChild(border.lastChild);
+			}
+
+			var animator = document.createElement('a-animation');
+			animator.setAttribute('mixin', sides[idx].animationLeave);
+			animator.addEventListener('animationend', function (){
+				this.parentElement.removeChild(this);
+			})
+
+			border.appendChild(animator);
+
 		})
 	},
 });

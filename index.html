@@ -35,20 +35,45 @@
 			<a-assets>
 
 			    <img id="one" src="images/one.png">
-			    <img id="go-home" src="images/go-home-2x.png">
+			    <img id="go-home" src="images/go-home-3x-white.png">
+			    <img id="this-is-home" src="images/this-is-home-3x-white.png">
 				<a-asset-item id="twitter-obj" src="obj/twitter.obj"></a-asset-item>
 				<a-asset-item id="github-obj" src="obj/github.obj"></a-asset-item>
 				<a-asset-item id="instagram-obj" src="obj/instagram.obj"></a-asset-item>
+				<a-asset-item id="medium-obj" src="obj/medium.obj"></a-asset-item>
 				<a-asset-item id="mtl" src="obj/mtl.mtl"></a-asset-item>
 
 				<a-mixin id="border" material="color: #0000FF" geometry="width: .1; height: .1; depth: .2;"></a-mixin>
-				<a-mixin id="growY" easing="ease-in" dur="1500" begin="open" attribute="height" repeat="0" from="0" to="4.9"></a-mixin>
-				<a-mixin id="growX" easing="ease-in" dur="1500" begin="open" attribute="width" repeat="0" from="0" to="4.9"></a-mixin>
-				<a-mixin id="shrinkY" easing="ease-in" dur="500" begin="close" attribute="height" repeat="0" from="4.9" to="0"></a-mixin>
-				<a-mixin id="shrinkX" easing="ease-in" dur="500" begin="close" attribute="width" repeat="0" from="4.9" to="0"></a-mixin>
+				<a-mixin id="growY" easing="ease-in" dur="1500" attribute="height" to="4.9"></a-mixin>
+				<a-mixin id="growX" easing="ease-in" dur="1500" attribute="width" to="4.9"></a-mixin>
+				<a-mixin id="shrinkY" fill="forwards" easing="ease-bounce" dur="500" attribute="height" to="0"></a-mixin>
+				<a-mixin id="shrinkX" fill="forwards" easing="ease-bounce" dur="500" attribute="width" to="0"></a-mixin>
 				<a-mixin id="text" material="color: #fff" text="text: Hello; size: 1; height: .2"></a-mixin>
 
 				<script id="gallery" type="text/x-nunjucks-template">
+
+					<!-- social media icons -->
+					{% set socialMedias = [
+						{objName: 'twitter', url: 'http://twitter.com/jssolichin', position: '-3 .2 0', 
+							pivotTo: '90 10 0', from: '90 -10 0', to: '90 -720 0'},
+						{objName: 'github', url: 'http://github.com/jssolichin', position: '-1 0 0', 
+							pivotTo: '50 0 0', from: '80 0 0', to: '800 0 0'},
+						{objName: 'medium', url: 'http://medium.com/@jssolichin', position: '1 0 0', 
+							pivotTo: '100 0 0', from: '50 0 0', to: '-800 0 0'},
+						{objName: 'instagram', url: 'http://instagram.com/jssolichin', position: '3 .1 0', 
+							pivotTo: '90 -10 0', from: '90 10 0', to: '90 720 0' }
+					] %}
+
+					{% macro socialMediaMacro(data) %}
+						<a-entity position="{{data.position}}" go-to="url: {{data.url}}; from: {{data.from}}; to: {{data.to}}">
+							<a-box opacity="0"/>
+							<a-entity class="icon" scale="20 20 20" rotation="90 0 0" obj-model="obj: #{{data.objName}}-obj; mtl: #mtl">
+								<a-animation direction="alternate" easing="ease-elastic" attribute="rotation" from="{{data.from}}" to="{{data.pivotTo}}" repeat="indefinite" dur="1500" ></a-animation>
+							</a-entity>
+						</a-entity>
+					{% endmacro %}
+
+					<!-- Main gallery generator -->
 
 					{% set tags = [
 						{mainTitle: true, title: 'Title 1'},
@@ -66,7 +91,7 @@
 									<a-image rotation="-90 0 0" width="10" height="10" src="#go-home" material="transparent: true" go-home>
 										<a-animation easing="linear" attribute="rotation" from="0 0 0" to="0 0 360" repeat="indefinite" dur="120000"></a-animation>
 									</a-image>
-									<a-image position="0 0 .1" width="8.5" height="8.5" src="#go-home" material="transparent: true">
+									<a-image position="0 0 .2" width="8.5" height="8.5" src="#go-home" material="transparent: true">
 										<a-animation easing="linear" attribute="rotation" from="0 0 0" to="0 0 -360" repeat="indefinite" dur="120000"></a-animation>
 									</a-image>
 								</a-entity>
@@ -99,11 +124,12 @@
 						</a-entity>
 					{% endmacro %}
 
-					<!-- 92.5 -->
+					<!-- Let's generate the gallery -->
 					<a-entity layout="type: circle; radius: 10" rotation="0 92.5 0" position="0 0 0">
 
 					{% for tag in tags %}
 						{% if tag.mainTitle %}
+
 							<a-entity look-at="#center">
 								<a-curvedimage src="#one" width="12.8" height="10" 
 								position="0 2.2 11" material="transparent:true;" geometry="primitive:plane;" rotation="0 150 0" 
@@ -115,25 +141,17 @@
 								<a-box position="3.75 -2 0" material="color: red;" height=".25" width="5" depth=".2"></a-box>
 							</a-entity>
 
-								<a-entity position="0 -1 0">
-									<a-entity position="-2.8 .2 0" scale="20 20 20" rotation="90 0 0" obj-model="obj: #twitter-obj; mtl: #mtl">
-										<a-animation direction="alternate" easing="ease-elastic" attribute="rotation" from="90 -10 0" to="90 10 0" repeat="indefinite" dur="1500"></a-animation>
-										<a-animation begin="mouseenter" easing="ease-in" fill="forwards" attribute="rotation" from="90 -10 0" to="90 -720 0" dur="2500"></a-animation>
-									</a-entity>
-									<a-entity position="-.2 0 0" scale="20 20 20" rotation="90 0 0" obj-model="obj: #github-obj; mtl: #mtl">
-										<a-animation direction="alternate" easing="ease-elastic" attribute="rotation" from="80 0 0" to="100 0 0" repeat="indefinite" dur="1500"></a-animation>
-										<a-animation begin="mouseenter" easing="ease-in" fill="forwards" attribute="rotation" from="80 0 0" to="800 0 0" dur="2500"></a-animation>
-									</a-entity>
-									<a-entity position="3 .1 0" scale="20 20 20" rotation="90 0 0" obj-model="obj: #instagram-obj; mtl: #mtl">
-										<a-animation direction="alternate" easing="ease-elastic" attribute="rotation" from="90 10 0" to="90 -10 0" repeat="indefinite" dur="1500"></a-animation>
-										<a-animation begin="mouseenter" easing="ease-in"fill="forwards" attribute="rotation" from="90 -10 0" to="90 720 0" dur="2500"></a-animation>
-									</a-entity>
-								</a-entity>
+							<a-entity position="0 -1 0">
+								{% for socialMedia in socialMedias %}
+									{{ socialMediaMacro(socialMedia) }}
+								{% endfor %}
+							</a-entity>
 
 							</a-entity>
+
 						{% else %}
 							{{ galleryItem(tag) }}
-						  {% endif %}
+						{% endif %}
 					{% endfor %}
 
 					</a-entity>
@@ -164,7 +182,9 @@
 				</a-camera>
 			</a-entity>
 
-			<a-entity id="center" position="0 0 0"></a-entity>
+			<a-entity id="center" position="0 0 0">
+				<a-image rotation="-90 0 0" width="4" height="4" src="#this-is-home" material="transparent: true"></a-image>
+			</a-entity>
 
 			<a-entity template="src: #gallery" data-num="5"></a-entity>
 
