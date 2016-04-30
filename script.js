@@ -23,14 +23,16 @@ AFRAME.registerComponent('item', {
 		entity.setAttribute('position', this.data.offset);
 
 		// let's add the borders
-		this.data.sides.forEach((side,index) => {
+		for(var i = 0; i < this.data.sides.length; i++){
+			var side= this.data.sides[i]
+
 			var box = document.createElement('a-box');
 			box.setAttribute('mixin', 'border');
 			box.setAttribute('position', side.position);
 
 			entity.appendChild(box);
 			this.data.borders.push(box);
-		});
+		}
 
 		// add the container to the scene
 		this.el.appendChild(entity);
@@ -38,27 +40,30 @@ AFRAME.registerComponent('item', {
 	onEnter: function (){
 		var sides = this.data.sides;
 
-		this.data.borders.forEach((border, idx) => {
-		
+		for(var i = 0; i < this.data.borders.length; i++){
+			var border= this.data.borders[i]
+
 			// delete any existing animation to avoid conflict
 			while (border.hasChildNodes()) {
 			    border.removeChild(border.lastChild);
 			}
 
 			var animator = document.createElement('a-animation');
-			animator.setAttribute('mixin', sides[idx].animationStart);
+			animator.setAttribute('mixin', sides[i].animationStart);
 			animator.addEventListener('animationend', function (){
-				this.parentElement.removeChild(this);
+				if(this.parentElement)
+					this.parentElement.removeChild(this);
 			})
 
 			border.appendChild(animator);
 
-		})
+		}
 	},
 	onLeave: function (){
 		var sides = this.data.sides;
 
-		this.data.borders.forEach((border,idx) => {
+		for(var i = 0; i < this.data.borders.length; i++){
+			var border= this.data.borders[i]
 			
 			// delete any existing animation to avoid conflict
 			while (border.hasChildNodes()) {
@@ -66,14 +71,15 @@ AFRAME.registerComponent('item', {
 			}
 
 			var animator = document.createElement('a-animation');
-			animator.setAttribute('mixin', sides[idx].animationLeave);
+			animator.setAttribute('mixin', sides[i].animationLeave);
 			animator.addEventListener('animationend', function (){
-				this.parentElement.removeChild(this);
+				if(this.parentElement)
+					this.parentElement.removeChild(this);
 			})
 
 			border.appendChild(animator);
 
-		})
+		}
 	},
 });
 
@@ -83,12 +89,13 @@ AFRAME.registerComponent('main-item', {
 	},
 	init: function () {
 		this.el.addEventListener('click', this.onClick.bind(this));
+		this.el.addEventListener('cursor-click', this.onClick.bind(this));
 	},
 	onClick: function (){
 
 		var camera = this.el.sceneEl.querySelector(this.data.target);
 		var childrenCenter = this.el.parentElement.querySelector('.childrenCenter');
-		var vector = childrenCenter.object3D.matrixWorld.getPosition();
+		var vector = new THREE.Vector3().setFromMatrixPosition(childrenCenter.object3D.matrixWorld)
 
 		camera.emit('moveHere', vector, false);
 	},

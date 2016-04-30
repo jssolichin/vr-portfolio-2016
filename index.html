@@ -27,16 +27,34 @@
 			.description {
 				font-size: 20px;
 			}
+			#footer {
+				position: absolute;
+				bottom: 0px;
+				left: 0px;
+				padding: 10px;
+			}
+			a {
+				text-decoration: none;
+				color: #fff;
+				display: block;
+				padding: 2px 5px;
+				border: 1px solid #fff;
+				border-radius: 3px;
+			}
+			a:hover {
+				background: #fff;
+				color: #DB7F7F;
+			}
 		</style>
 	</head>
 	<body>
 		<a-scene>
 
 			<a-assets>
-
-			    <img id="one" src="images/one.png">
-			    <img id="go-home" src="images/go-home-3x-white.png">
-			    <img id="this-is-home" src="images/this-is-home-3x-white.png">
+				<img id="one" src="images/one.png">
+			    <img id="go-home" src="images/go-home-white.png">
+			    <img id="this-is-home" src="images/this-is-home-white.png">
+			    <img id="insignia" src="images/insignia.png">
 				<a-asset-item id="twitter-obj" src="obj/twitter.obj"></a-asset-item>
 				<a-asset-item id="github-obj" src="obj/github.obj"></a-asset-item>
 				<a-asset-item id="instagram-obj" src="obj/instagram.obj"></a-asset-item>
@@ -171,19 +189,16 @@
 				<a-entity light="type: point; intensity: 1; distance: 100; decay: 2" position="0 1 0" rotation="0 -90 0" ></a-entity>
 					<a-entity 
 						position="0 0 -3"
-						geometry="primitive: ring; radiusOuter: 0.30; radiusInner: 0.20;"
+						geometry="primitive: ring; radiusOuter: 0.04; radiusInner: 0.03;"
 						material="color: cyan; shader: flat"
 						cursor="maxDistance: 30; fuse: true">
-						<a-animation begin="click" easing="ease-in" attribute="scale"
-							fill="backwards" from="0.1 0.1 0.1" to="1 1 1" dur="150"></a-animation>
-						<a-animation begin="fusing" easing="ease-in" attribute="scale"
-							fill="forwards" from="1 1 1" to="0.1 0.1 0.1" dur="1500"></a-animation>
 					</a-entity>
 				</a-camera>
 			</a-entity>
 
 			<a-entity id="center" position="0 0 0">
 				<a-image rotation="-90 0 0" width="4" height="4" src="#this-is-home" material="transparent: true"></a-image>
+				<a-image position="0 4 0" rotation="90 0 0" width="3" height="3" src="#insignia" material="transparent: true"></a-image>
 			</a-entity>
 
 			<a-entity template="src: #gallery" data-num="5"></a-entity>
@@ -193,6 +208,10 @@
 
 		<div id="header">
 			<img id="logo" src="images/logo-white.png">
+		</div>
+
+		<div id="footer">
+			<a href="#">Visit non-vr</a>
 		</div>
 
 	</body>
