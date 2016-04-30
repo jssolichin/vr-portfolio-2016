@@ -51,7 +51,42 @@
 		<a-scene>
 
 			<a-assets>
-				<img id="one" src="images/one.png">
+
+				<img id="a-1" src="images/a-1.png">
+				<img id="a-2" src="images/a-2.png">
+				<img id="a-3" src="images/a-3.png">
+				<img id="a-4" src="images/a-4.png">
+				<img id="a-5" src="images/a-5.png">
+				<img id="a-6" src="images/a-6.png">
+
+				<img id="b-1" src="images/b-1.png">
+				<img id="b-2" src="images/b-2.png">
+				<img id="b-3" src="images/b-3.png">
+				<img id="b-4" src="images/b-4.png">
+				<img id="b-5" src="images/b-5.png">
+				<img id="b-6" src="images/b-6.png">
+
+				<img id="c-1" src="images/c-1.png">
+				<img id="c-2" src="images/c-2.png">
+				<img id="c-3" src="images/c-3.png">
+				<img id="c-4" src="images/c-4.png">
+				<img id="c-5" src="images/c-5.png">
+
+				<img id="d-1" src="images/d-1.png">
+				<img id="d-2" src="images/d-2.png">
+				<img id="d-3" src="images/d-3.png">
+				<img id="d-4" src="images/d-4.png">
+				<img id="d-5" src="images/d-5.png">
+				<img id="d-6" src="images/d-6.png">
+
+				<img id="e-1" src="images/e-1.png">
+				<img id="e-2" src="images/e-2.png">
+				<img id="e-3" src="images/e-3.png">
+				<img id="e-4" src="images/e-4.png">
+				<img id="e-5" src="images/e-5.png">
+				<img id="e-6" src="images/e-6.png">
+
+				<img id="profile" src="images/profile.png">
 			    <img id="go-home" src="images/go-home-white.png">
 			    <img id="this-is-home" src="images/this-is-home-white.png">
 			    <img id="insignia" src="images/insignia.png">
@@ -95,10 +130,11 @@
 
 					{% set tags = [
 						{mainTitle: true, title: 'Title 1'},
-						{title: 'Title 2', title2: 'WORLD'},
-						{title: 'hello', title2: 'WORLD'},
-						{title: 'hello', title2: 'WORLD'},
-						{title: 'hello', title2: 'WORLD'}
+						{set: 'a', title: 'DEFERRR', title2: 'RRRRRRED', range: 7, url: 'http://jssolichin.com/deferrrrrrrrred/'},
+						{set: 'b', title: 'INFINITE', title2: 'MONDRIAN', range: 7, url: 'http://infinitemondrian.com'},
+						{set: 'c', title: 'LUNA', title2: 'VIEWPOINT', range: 6, url: 'http://jssolichin.com/luna-viewpoint/'},
+						{set: 'e', title: 'SCHEDULENAUT', title2: 'WEB APP', range: 7, url: 'http://schedulenaut.com'},
+						{set: 'd', title: 'TWINE', title2: 'MOBILE APP', range: 7, url: 'http://sevenbillionyou.com/twine'}
 					] %}
 
 					{% macro galleryItem(data) %}
@@ -113,10 +149,20 @@
 										<a-animation easing="linear" attribute="rotation" from="0 0 0" to="0 0 -360" repeat="indefinite" dur="120000"></a-animation>
 									</a-image>
 								</a-entity>
+								
+								<a-entity position="0 10 -1" rotation="90 0 0" go-to-project="url: {{data.url}}">
+									<a-box position="0 .5 0" height="3" width="17" opacity="0" />
+									<a-entity position="0 .7 0">
+										<a-box class="item" height=".3" width="0" material="color: blue;">
+										</a-box>
+									</a-entity>
+									<a-entity position="-8.5 0 0" scale="1.5 1.5 1.5" mixin="text" text="text: GO TO PROJECT;" ></a-entity>
+								</a-entity>
+
 								<a-entity id="lookCenter" layout="type: circle; radius: 3">
-									{% for z in range(5) %}
+								{% for z in range(2,data.range) %}
 										<a-entity look-at="#center">
-											<a-curvedimage src="#one" width="12.8" height="10" 
+									<a-curvedimage src="#{{data.set}}-{{z}}" width="12.8" height="10" 
 											material="transparent:true;" geometry="primitive:plane;"  rotation="0 -30 0" 
 											radius="20" theta-length="55" ></a-curvedimage> 
 										</a-entity>
@@ -125,7 +171,7 @@
 							</a-entity>
 
 							<!-- main gallery image -->
-							<a-curvedimage src="#one" width="12.8" height="10" 
+							<a-curvedimage src="#{{data.set}}-1" width="12.8" height="10" 
 							position="0 2.2 11" material="transparent:true;" geometry="primitive:plane;" rotation="0 150 0" 
 							radius="20" theta-length="55" main-item></a-curvedimage> 
 
@@ -143,13 +189,13 @@
 					{% endmacro %}
 
 					<!-- Let's generate the gallery -->
-					<a-entity layout="type: circle; radius: 10" rotation="0 92.5 0" position="0 0 0">
+					<a-entity layout="type: circle; radius: 12" rotation="0 92.5 0" position="0 0 0">
 
 					{% for tag in tags %}
 						{% if tag.mainTitle %}
 
 							<a-entity look-at="#center">
-								<a-curvedimage src="#one" width="12.8" height="10" 
+								<a-curvedimage src="#profile" width="12.8" height="10" 
 								position="0 2.2 11" material="transparent:true;" geometry="primitive:plane;" rotation="0 150 0" 
 								radius="20" theta-length="55"></a-curvedimage> 
 

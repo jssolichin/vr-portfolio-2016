@@ -12,10 +12,10 @@ AFRAME.registerComponent('item', {
 
 		// depending on which side of the border, we have some different values
 		this.data.sides = [
-			{animationStart: 'growY', animationLeave: 'shrinkY', position: '-2.4 -2 4'},
-			{animationStart: 'growY', animationLeave: 'shrinkY', position: '2.4 -2 4'},
-			{animationStart: 'growX', animationLeave: 'shrinkX', position: '0 -4.4 4'},
-			{animationStart: 'growX', animationLeave: 'shrinkX', position: '0 0.4 4'},
+			{animationStart: 'growY', animationLeave: 'shrinkY', position: '-2.4 -2 5'},
+			{animationStart: 'growY', animationLeave: 'shrinkY', position: '2.4 -2 5'},
+			{animationStart: 'growX', animationLeave: 'shrinkX', position: '0 -4.4 5'},
+			{animationStart: 'growX', animationLeave: 'shrinkX', position: '0 0.4 5'},
 		]
 
 		// create a container for the borders
@@ -205,5 +205,53 @@ AFRAME.registerComponent('go-to', {
 				icon.removeChild(animator);
 		});
 
+	}
+});
+
+AFRAME.registerComponent('go-to-project', {
+	schema: {
+		target: {default: '#camera'},
+		item: {default: '.item'},
+		url: {default: 'http://jssolichin.com'},
+	},
+	init: function () {
+		var vector = new THREE.Vector3(0,0,0);
+		var camera = this.el.sceneEl.querySelector(this.data.target);
+		var item = this.el.querySelector(this.data.item);
+		var url = this.data.url;
+
+		var animator;
+
+		this.el.addEventListener('mouseenter', function (a) {
+
+			animator = document.createElement('a-animation');
+			animator.setAttribute('attribute', 'width');
+			animator.setAttribute('from', '0');
+			animator.setAttribute('to', '18');
+			animator.setAttribute('fill', 'backwards');
+			animator.setAttribute('repeat', '0');
+			animator.setAttribute('easing', 'ease-in');
+			animator.setAttribute('dur', '2000');
+
+			animator.addEventListener('animationend', function (){
+				this.parentElement.removeChild(this);
+			})
+
+			item.appendChild(animator);
+		
+		});
+
+		this.el.addEventListener('mouseleave', function (a) {
+
+			if(animator)
+				item.removeChild(animator);
+		
+		});
+
+		this.el.addEventListener('click', function (a) {
+
+			window.location = url;
+
+		});
 	}
 });
