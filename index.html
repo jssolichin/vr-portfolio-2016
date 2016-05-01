@@ -2,8 +2,12 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>Hello, World! • A-Frame</title>
-		<meta name="description" content="Hello, World! • A-Frame">
+		<title>Jonathan Solichin VR Portfolio; Designer, Developer, Maker</title>
+		<meta name="description" content="The VR Portfolio of Jonathan Solichin, a UX Designer, a front-end developer, and an everything maker.">
+		<meta name="theme-color" content="#000">
+		<link rel="icon" sizes="192x192" href="images/icon.png">
+		<link rel="shortcut icon" href="images/favicon.ico" >
+
 		<script src="https://aframe.io/releases/0.2.0/aframe.min.js"></script>
 		<script src="node_modules/aframe-template-component/dist/aframe-template-component.min.js"></script>
 		<script src="node_modules/aframe-layout-component/dist/aframe-layout-component.min.js"></script>
@@ -11,10 +15,14 @@
 		<script src="node_modules/aframe-htmltexture-component/node_modules/aframe-draw-component/dist/aframe-draw-component.js"></script>
 		<script src="node_modules/aframe-htmltexture-component/dist/aframe-htmltexture-component.js"></script>
 		<script src="script.js"></script>
+
 		<style>
 			body {
 				background: linear-gradient(#CADCF7, #DB7F7F);	
 				font-family: helvetica, arial, "sans-serif";
+			}
+			.u-hide {
+				display: none;
 			}
 			#header {
 				text-align: center;
@@ -33,6 +41,22 @@
 				left: 0px;
 				padding: 10px;
 			}
+			#footer ul {
+				list-style-type: none;
+				padding: 0px;
+				margin: 0px;
+				color: #fff;
+			}
+			#footer ul li {
+				float: left;
+				margin-right: 10px;
+			}
+			#footer ul li span {
+				display: inline-block;
+				margin-top: 4px;
+				font-size: .8em;
+				opacity: .5;
+			}
 			a {
 				text-decoration: none;
 				color: #fff;
@@ -45,6 +69,18 @@
 				background: #fff;
 				color: #DB7F7F;
 			}
+			#warning {
+				display: none;
+				position: absolute;
+				top: 10px;
+				left: 50%;
+				transform: translateX(-50%);
+				padding: 10px;
+				border-radius: 3px;
+				text-align: center;
+				background: rgba(255,233,107,.7);
+			}
+
 		</style>
 	</head>
 	<body>
@@ -130,9 +166,9 @@
 
 					{% set tags = [
 						{mainTitle: true, title: 'Title 1'},
-						{set: 'a', title: 'DEFERRR', title2: 'RRRRRRED', range: 7, url: 'http://jssolichin.com/deferrrrrrrrred/'},
+						{set: 'a', title: 'DEFERRR', title2: 'RRRRRRED', range: 7, url: 'http://jssolichin.com/blog/deferrrrrrrrred/'},
 						{set: 'b', title: 'INFINITE', title2: 'MONDRIAN', range: 7, url: 'http://infinitemondrian.com'},
-						{set: 'c', title: 'LUNA', title2: 'VIEWPOINT', range: 6, url: 'http://jssolichin.com/luna-viewpoint/'},
+						{set: 'c', title: 'LUNA', title2: 'VIEWPOINT', range: 6, url: 'http://jssolichin.com/blog/luna-viewpoint/'},
 						{set: 'e', title: 'SCHEDULENAUT', title2: 'WEB APP', range: 7, url: 'http://schedulenaut.com'},
 						{set: 'd', title: 'TWINE', title2: 'MOBILE APP', range: 7, url: 'http://sevenbillionyou.com/twine'}
 					] %}
@@ -200,12 +236,13 @@
 								radius="20" theta-length="55"></a-curvedimage> 
 
 							<a-entity position="-3.5 2 0" rotation="20 0 0">
+								<a-entity position="7.7 2.5 4" mixin="text" text="text: β;" scale=".4 .4 .4"></a-entity>
 								<a-entity position="0 1.7 4" mixin="text" text="text: JSSOLICHIN;"></a-entity>
 								<a-entity position="-1.2 -.6 1" mixin="text" text="text: UX / Developer / Creative; size: .6"></a-entity>
 								<a-box position="3.75 -2 0" material="color: red;" height=".25" width="5" depth=".2"></a-box>
 							</a-entity>
 
-							<a-entity position="0 -1 0">
+							<a-entity position=".1 -1 0">
 								{% for socialMedia in socialMedias %}
 									{{ socialMediaMacro(socialMedia) }}
 								{% endfor %}
@@ -256,8 +293,35 @@
 			<img id="logo" src="images/logo-white.png">
 		</div>
 
+		<div class="u-hide">
+			<h1>Jonathan Sebastian Solichin</h1>
+			<h2>UX Designer, Front-end Developer, and Maker</h2>
+			<h3>He is obsessed with transforming data into understanding through visualizations and interfaces.</h3>
+			<p>He graduated in 2015 from UCLA’s Design Media Arts program with a minor in Digital Humanities in GIS.</p>
+
+			<ul>
+				<li><a href="http://twitter.com/jssolichin">Twitter</a></li>
+				<li><a href="http://github.com/jssolichin">Github</a></li>
+				<li><a href="http://medium.com/@jssolichin">Medium</a></li>
+				<li><a href="http://instagram.com/jssolichin">Instagram</a></li>
+			</ul>
+
+			<p>Made with love in California in 2016.</p>
+		</div>
+
 		<div id="footer">
-			<a href="#">Visit non-vr</a>
+			<ul>
+				<li>
+					<a href="http://jssolichin.com/blog/">Visit Non-VR</a>
+				</li>
+				<li>
+					<span id="check-other"></span>
+				</li>
+			</ul>
+		</div>
+
+		<div id="warning">
+			<b>Warning</b>: Link will leave VR experience.
 		</div>
 
 	</body>

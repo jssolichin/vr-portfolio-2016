@@ -1,3 +1,14 @@
+var gyroPresent = false;
+window.addEventListener("devicemotion", function(event){
+	var checkOther = document.querySelector('#check-other');
+	if(event.rotationRate.alpha || event.rotationRate.beta || event.rotationRate.gamma){
+		checkOther.innerHTML = "Visit on desktop to use the keyboard to travel this world!";
+	}
+	else{
+		checkOther.innerHTML = "Visit on mobile to use the gyroscope for an immersive experience!";
+	}
+});
+
 AFRAME.registerComponent('item', {
 	schema: {
 		offset: {default: '0 4 -1.5' },
@@ -169,6 +180,7 @@ AFRAME.registerComponent('click-listener', {
 
 AFRAME.registerComponent('go-to', {
 	schema: {
+		warning: {default: '#warning'},
 		url: {default: 'http://jssolichin.com'},
 		target: {default: '.icon'},
 		from: {default: '90 10 0'},
@@ -176,6 +188,7 @@ AFRAME.registerComponent('go-to', {
 	},
 	init: function () {
 
+		var warning = document.querySelector(this.data.warning);
 		var url = this.data.url
 		var from = this.data.from
 		var to = this.data.to
@@ -198,9 +211,11 @@ AFRAME.registerComponent('go-to', {
 			})
 
 			icon.appendChild(animator);
+			warning.style.display = "inline-block";
 		});
 
 		this.el.addEventListener('mouseleave', function (a){
+			warning.style.display = "none";
 			if(animator)
 				icon.removeChild(animator);
 		});
@@ -210,12 +225,14 @@ AFRAME.registerComponent('go-to', {
 
 AFRAME.registerComponent('go-to-project', {
 	schema: {
+		warning: {default: '#warning'},
 		target: {default: '#camera'},
 		item: {default: '.item'},
 		url: {default: 'http://jssolichin.com'},
 	},
 	init: function () {
 		var vector = new THREE.Vector3(0,0,0);
+		var warning = document.querySelector(this.data.warning);
 		var camera = this.el.sceneEl.querySelector(this.data.target);
 		var item = this.el.querySelector(this.data.item);
 		var url = this.data.url;
@@ -238,11 +255,13 @@ AFRAME.registerComponent('go-to-project', {
 			})
 
 			item.appendChild(animator);
+			warning.style.display = "inline-block";
 		
 		});
 
 		this.el.addEventListener('mouseleave', function (a) {
 
+			warning.style.display = "none";
 			if(animator)
 				item.removeChild(animator);
 		
